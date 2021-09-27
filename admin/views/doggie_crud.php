@@ -118,13 +118,13 @@ if(isset($add)){
 ?>
     <td width="180"><input type="hidden" name="id" value="<?= $cooper_obj->getId(); ?>">
         <input type="text" name="name" value="<?php echo $cooper_obj->getName(); ?>"></td>
-    <td width="200"><img style="width: 200px;"><input type="text" name="dogImg" value ="<?= $cooper_obj->getImg();?>"></td>
+    <td width="200"><input type="text" name="dogImg" value ="<?= $cooper_obj->getImg();?>"></td>
     <td width="200"><input type="text" name="dogRace" value ="<?= $cooper_obj->getRace();?>"></td>
     <td colspan="2"><input type="submit" name="update" value="Updaten"/></td>
 
     <?php } else {  ?>
         <td width="180"><?= $cooper_obj->getName(); ?></td>
-        <td width="200"><img src="<?= $cooper_obj->getImg();?>"></td>
+        <td width="200"><img style="width:250px; height:auto;" src="<?= $cooper_obj->getImg();?>"></td>
         <td width="200"><?= $cooper_obj->getRace();?></td>
         <?php if ($action !=='update') {
             //If action is update don't show the action button

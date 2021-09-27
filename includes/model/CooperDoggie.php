@@ -104,13 +104,13 @@ public function save($input_array) {
             //New object
         $cooper = new CooperDoggie();
         //Set all info
-        $cooper->setName($array['dog_name']);
         $cooper->setId($array['id_doggie']);
+        $cooper->setName($array['dog_name']);
         $cooper->setImg($array['dog_img']);
         $cooper->setRace($array['dog_race']);
 
         //Add new object to return array
-        $return_array[] = $cooperDoggie;
+        $return_array[] = $cooper;
         }
         return $return_array;
     }

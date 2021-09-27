@@ -1,6 +1,6 @@
 <?php
-require_once MY_EVENT_ORGANISER_PLUGIN_MODEL_DIR . '/EventCategory.php';
-require_once MY_EVENT_ORGANISER_PLUGIN_MODEL_DIR . '/EventType.php';
+require_once COOPER_MODEL_DIR . '/EventCategory.php';
+require_once COOPER_MODEL_DIR . '/EventType.php';
 
 class Event
 {

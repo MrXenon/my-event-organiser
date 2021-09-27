@@ -3,7 +3,7 @@
  * Description of EventView class
  */
 
-require_once MY_EVENT_ORGANISER_PLUGIN_MODEL_DIR .'/Event.php';
+require_once COOPER_MODEL_DIR .'/Event.php';
 
 class EventView{
 

@@ -1,11 +1,11 @@
 <?php
 
 //	Add	the	main view shortcode
-add_shortcode('my_event_organiser_main_view','load_main_view');
+add_shortcode('cooper_main_view','load_main_view_cooper');
 
-function load_main_view( $atts, $content = NULL){
+function load_main_view_cooper( $atts, $content = NULL){
     //Include the main view
-        include MY_EVENT_ORGANISER_PLUGIN_INCLUDES_VIEWS_DIR.
-            '/my_event_organiser_main_view.php';
+        include COOPER_INCLUDES_VIEWS_DIR.
+            '/cooper_main_view.php';
 }
 

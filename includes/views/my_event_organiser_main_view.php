@@ -9,7 +9,7 @@
 $base_url = get_permalink();
 
 //Include the Event class from the VIEW.
-require_once MY_EVENT_ORGANISER_PLUGIN_INCLUDES_VIEWS_DIR.'/EventView.php';
+require_once COOPER_INCLUDES_VIEWS_DIR.'/EventView.php';
 
 $event_view = new EventView();
 
@@ -21,7 +21,7 @@ $post_inputs = $event_view->getPostValues();
 
 //If provided set current file based on the provided link
 $current_file = (!empty($get_inputs['link']) ?
-MY_EVENT_ORGANISER_PLUGIN_INCLUDES_VIEWS_DIR. '/'. $get_inputs['link'].'.php' :
+COOPER_INCLUDES_VIEWS_DIR. '/'. $get_inputs['link'].'.php' :
 '');
 
 //Add the current page link get param.

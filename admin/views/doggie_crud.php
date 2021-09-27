@@ -1,10 +1,10 @@
 <?php
 //Include model:
 
-include MY_EVENT_ORGANISER_PLUGIN_MODEL_DIR. "/EventCategory.php";
+include COOPER_MODEL_DIR. "/CooperDoggie.php";
 
 //Declare class variable:
-$event_categories = new EventCategory();
+$cooper_doggie = new CooperDoggie();
 
 //Set base url to current file and add page specific vars
 $base_url = get_admin_url().'admin.php';
@@ -14,7 +14,7 @@ $params = array( 'page' => basename(__FILE__,".php"));
 $base_url = add_query_arg( $params, $base_url );
 
 //Get the GET data in filtered array
-$get_array = $event_categories->getGetValues();
+$get_array = $cooper_doggie->getGetValues();
 
 //Keep track of current action
 $action = FALSE;
@@ -23,12 +23,12 @@ if (!empty($get_array)) {
 
     //Check actions
     if (isset($get_array['action'])) {
-        $action = $event_categories->handleGetAction($get_array);
+        $action = $cooper_doggie->handleGetAction($get_array);
     }
 }
 
 //Get the POST data in filtered array
-$post_array = $event_categories->getPostValues();
+$post_array = $cooper_doggie->getPostValues();
 
 //Collect Errors
 $error = FALSE;
@@ -40,7 +40,7 @@ if (!empty($post_array)){
     $add = FALSE;
     if (isset($post_array['add']) ){
         // Save event categorie
-        $result = $event_categories->save($post_array);
+        $result = $cooper_doggie->save($post_array);
         if ($result){
             //Save was succesfull
             $add = TRUE;
@@ -53,16 +53,9 @@ if (!empty($post_array)){
     //Check the update form:
     if (isset($post_array['update']) ){
         //Save event categorie
-        $event_categories->update($post_array);
+        $cooper_doggie->update($post_array);
     }
 }
-
-/*
-echo '<pre>';
-echo __FILE__.__LINE__.'<br />';
-var_dump($post_array);
-echo '</pre>';
-//*/
 ?>
 
 <div class="wrap">
@@ -85,65 +78,63 @@ if(isset($add)){
             <thead>
                 <tr>
                     <th width="10">Id</th>
-                    <th width="150">Name</th>
-                    <th width="200">Description</th>
+                    <th width="200">Name</th>
+                    <th width="200">Img</th>
+                    <th width="200">Race</th>
                 </tr>
             </thead>
     <!--  <tr><td colspan="3">Event types rij 1</td></tr> -->
     <?php
 //*
- if( $event_categories->getNrOfEventCategories() < 1){
+ if( $cooper_doggie->getNrOfCoopers() < 1){
 ?>
- <tr><td colspan="3">Start adding Event Categories</tr>
+ <tr><td colspan="3">Start adding Doggies</tr>
 <?php 
  } else {
-     $cat_list = $event_categories->getEventCategoryList(); 
+     $cooper_list = $cooper_doggie->getCooperList(); 
 
      //** Show all event categories in the tabel */
-     foreach( $cat_list as $event_cat_obj){
+     foreach( $cooper_list as $cooper_obj){
          
         //Create update link
-        $params = array( 'action' => 'update', 'id' => $event_cat_obj->getId());
+        $params = array( 'action' => 'update', 'id' => $cooper_obj->getId());
         //Add params to base url update link
         $upd_link = add_query_arg( $params,  $base_url );
 
         //Create delete link
-        $params = array( 'action' => 'delete', 'id' => $event_cat_obj->getId());
+        $params = array( 'action' => 'delete', 'id' => $cooper_obj->getId());
 
         //Add params to base url delete link
         $del_link = add_query_arg( $params, $base_url);
 
          ?>
-     <tr><td width="10"><?php echo $event_cat_obj->getId(); ?></td>
+     <tr><td width="10"><?= $cooper_obj->getId(); ?></td>
 <?php 
      //If update and id match show update form
      //Add hidden field id for id transfer
      if (   ($action == 'update') && 
-            ($event_cat_obj->getId() == $get_array['id']) ){ 
+            ($cooper_obj->getId() == $get_array['id']) ){ 
 ?>
-    <td width="180"><input type="hidden" name="id" value="<?php echo $event_cat_obj->getId(); ?>">
-        <input type="text" name="name" value="<?php echo $event_cat_obj->getName(); ?>"></td>
-    <td width="200"><input type="text" name="description" value ="<?php echo $event_cat_obj->getDescription();?>"></td>
+    <td width="180"><input type="hidden" name="id" value="<?= $cooper_obj->getId(); ?>">
+        <input type="text" name="dogName" value="<?= $cooper_obj->getName(); ?>"></td>
+    <td width="200"><input type="text" name="dogImg" value ="<?= $cooper_obj->getImg();?>"></td>
+    <td width="200"><input type="text" name="dogRace" value ="<?= $cooper_obj->getRace();?>"></td>
     <td colspan="2"><input type="submit" name="update" value="Updaten"/></td>
 
     <?php } else {  ?>
-        <td width="180"><?php echo $event_cat_obj->getName(); ?></td>
-        <td width="200"><?php echo $event_cat_obj->getDescription();?></td>
+        <td width="180"><?= $cooper_obj->getId(); ?></td>
+        <td width="180"><?= $cooper_obj->getName(); ?></td>
+        <td width="200"><img style="width:auto; Height:250px;" src="<?= $cooper_obj->getImg();?>"></td>
+        <td width="200"><?= $cooper_obj->getRace();?></td>
         <?php if ($action !=='update') {
             //If action is update don't show the action button
         ?>
-        <td><a href="<?php echo $upd_link; ?>">Update</a></td>
-        <td><a href="<?php echo $del_link; ?>">Delete</a></td>
+        <td><a href="<?= $upd_link; ?>">Update</a></td>
+        <td><a href="<?= $del_link; ?>">Delete</a></td>
     <?php
             } //if action !== update
     ?>
     <?php } // if action !== update ?>
-
-      <!--      
-     <td width="180"><?php //echo $event_cat_obj->getName(); ?></td>
-     <td width="200"><?php// echo $event_cat_obj->getDescription();?></td>
-     <td><a href="<?php //echo $upd_link; ?>">Update</a></td> 
-     <td><button onclick="myFunction(<?php// echo $event_cat_obj->getId();?>)">Click me</button></td>-->
      </tr>
     <?php   }   }
     ?>
@@ -158,11 +149,12 @@ if(isset($add)){
     if ($action !== 'update'){
     ?>
 
-    <form action="<?php echo $base_url; ?>" method="post"><tr>
+    <form action="<?= $base_url; ?>" method="post"><tr>
         <table>
             <tr><td colspan="2">
-                    <input type="text" name="name"></td>
-                <td><input type="text" name="description"></td></tr>
+                    <input type="text" name="dogName"></td>
+                <td><input type="text" name="dogImg"></td>
+                <td><input type="text" name="dogRace"></td></tr>
             <tr><td colspan="2"><input type="submit" name="add" value="Toevoegen"/></td>
             </tr>
         </table>

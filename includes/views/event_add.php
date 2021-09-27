@@ -2,10 +2,10 @@
 
 if (function_exists('current_user_can') &&
     !current_user_can('ivs_meo_event_create'))
-    die(__('Cheatin&#8217; uh?', 'my_event_organiser'));
+    die(__('Cheatin&#8217; uh?', 'cooper'));
 
 // Include the Event class from the model.
-require_once MY_EVENT_ORGANISER_PLUGIN_MODEL_DIR . '/Event.php';
+require_once COOPER_MODEL_DIR . '/Event.php';
 
 $event = new Event();
 
@@ -18,7 +18,7 @@ date_default_timezone_set('Europe/Amsterdam');
 
 /*Include this section */
 
-require_once(MY_EVENT_ORGANISER_PLUGIN_INCLUDES_DIR . '/calendar/classes/tc_calendar.php');
+require_once(COOPER_INCLUDES_DIR . '/calendar/classes/tc_calendar.php');
 
 ?>
 <h2><?php echo __('Evenement aanmaken') ?></h2>

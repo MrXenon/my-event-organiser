@@ -10,26 +10,26 @@
  * 0.1      Initial version
  */
 // De versie moet gleijk zij met het versie nummer in de my-event-organiser.php header
-define ( 'MY_EVENT_ORGANISER_VERSION', '0.0.1' );
+define ( 'cooper_VERSION', '1.0.0' );
 
 // Minimum required Wordpress version for this plugin
-define ( 'MY_EVENT_ORGANISER_REQUIRED_WP_VERSION', '4.0' );
+define ( 'cooper_REQUIRED_WP_VERSION', '4.0' );
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_BASENAME', plugin_basename( MY_EVENT_ORGANISER_PLUGIN ) );
+define ( 'COOPER_BASENAME', plugin_basename( COOPER ) );
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_NAME', trim( dirname ( MY_EVENT_ORGANISER_PLUGIN_BASENAME ), '/' ) );
+define ( 'COOPER_NAME', trim( dirname ( COOPER_BASENAME ), '/' ) );
 
 // Folder Structure
-define ( 'MY_EVENT_ORGANISER_PLUGIN_DIR', untrailingslashit( dirname ( MY_EVENT_ORGANISER_PLUGIN ) ) );
+define ( 'COOPER_DIR', untrailingslashit( dirname ( COOPER ) ) );
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_INCLUDES_DIR', MY_EVENT_ORGANISER_PLUGIN_DIR . '/includes' );
+define ( 'COOPER_INCLUDES_DIR', COOPER_DIR . '/includes' );
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_INCLUDES_VIEWS_DIR', MY_EVENT_ORGANISER_PLUGIN_INCLUDES_DIR	. '/views'	);
+define ( 'COOPER_INCLUDES_VIEWS_DIR', COOPER_INCLUDES_DIR	. '/views'	);
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_MODEL_DIR', MY_EVENT_ORGANISER_PLUGIN_INCLUDES_DIR . '/model' );
+define ( 'COOPER_MODEL_DIR', COOPER_INCLUDES_DIR . '/model' );
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_ADMIN_DIR', MY_EVENT_ORGANISER_PLUGIN_DIR . '/admin' );
+define ( 'COOPER_ADMIN_DIR', COOPER_DIR . '/admin' );
 
-define ( 'MY_EVENT_ORGANISER_PLUGIN_ADMIN_VIEWS_DIR', MY_EVENT_ORGANISER_PLUGIN_ADMIN_DIR . '/views' );
+define ( 'COOPER_ADMIN_VIEWS_DIR', COOPER_ADMIN_DIR . '/views' );
 
 ?>

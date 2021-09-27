@@ -7,7 +7,7 @@
 
 
 
- class EventCategory{
+ class CooperDoggie{
 
      /**
   * getPostValues : 
@@ -22,16 +22,12 @@
         //Submit action
         'add' => array('filter' => FILTER_SANITIZE_STRING ),
         'update' => array('filter' => FILTER_SANITIZE_STRING ),
-
-        //List all update form fields!!!
-        //
-
-        //Event type name
-        'name' => array('filter' => FILTER_SANITIZE_STRING ),
-
-        //Help text
-        'description' => array('filter' => FILTER_SANITIZE_STRING),
-        
+        //Name
+        'dogName' => array('filter' => FILTER_SANITIZE_STRING ),
+        //Img URL
+        'dogImg' => array('filter' => FILTER_SANITIZE_STRING),
+        //Race
+        'dogRace' => array('filter' => FILTER_SANITIZE_STRING),
         //Id of current row
         'id' => array('filter' => FILTER_VALIDATE_INT )
     );
@@ -43,22 +39,19 @@
     return $inputs;
   }
 
-  /**
-   * 
-   * @global type $wpdb The Wordpress database class
-   * @param type $input_array containing insert data
-   * @return boolean TRUE on succes OR FALSE
-   */
+
 public function save($input_array) {
     try {
-        if (!isset($input_array['name']) OR
-            !isset($input_array['description'])) {
+        if (!isset($input_array['dogName']) OR
+            !isset($input_array['dogImg']) OR
+            !isset($input_array['dogRace'])) {
             //Mondatory fields are missing
             throw new Exception(__("Empty mandatory fields") );
         }
 
-        if (    (strlen($input_array['name']) <1 ) OR
-            (strlen($input_array['description']) <1 ) ){
+        if ((strlen($input_array['dogName']) <1 ) OR
+            (strlen($input_array['dogImg']) <1 ) OR
+            (strlen($input_array['dogRace']) <1 ) ){
             //Mandatory fields are empty
             throw new Exception(__("Empty mandatory fields") );
             }
@@ -66,25 +59,15 @@ public function save($input_array) {
         global $wpdb;
 
         //Insert query
-        $wpdb->query($wpdb->prepare("INSERT INTO `". $wpdb->prefix."meo_event_category` ( `name`, `description`)".
-        " VALUES ( '%s', '%s');",$input_array['name'], $input_array['description']) );
+        $wpdb->query($wpdb->prepare("INSERT INTO `". $this->getTableName()."` ( `dog_name`, `dog_img`, `dog_race`)".
+        " VALUES ( '%s', '%s', '%s');",$input_array['dogName'], $input_array['dogImg'], $input_array['dogRace']) );
+
 
         //Error ? It's in there:
         if ( !empty($wpdb->last_error) ){
             $this->last_error = $wpdb->last_error;
             return FALSE;
         }
-
-        /*
-        echo '<pre>';
-        echo __FILE__.__LINE__.'<br />';
-        var_dump($wpdb);
-        echo '</pre>'; 
-        //*/
-
-
-        //echo 'Insert name and description for this Category: '.
-        //$input_array['name']."-". $input_array['description']."<br />";
 
     } catch (Exception $exc) {
         // @todo: Add error handling
@@ -97,46 +80,33 @@ public function save($input_array) {
      * 
      * @return int number of Event categories stored in db
      */
-    public function getNrOfEventCategories(){
+    public function getNrOfCoopers(){
         global $wpdb;
 
-        $query = "SELECT COUNT(*) AS nr FROM `". $wpdb->prefix
-        ."meo_event_category`";
+        $query = "SELECT COUNT(*) AS nr FROM `".$this->getTableName()."`";
         $result = $wpdb->get_results( $query, ARRAY_A);
 
         return $result[0] ['nr'];
     }
 
-    /**
-     * 
-     * @return type
-     */
-    public function getEventCategoryList() {
+    public function getCooperList() {
 
         global $wpdb;
         $return_array = array();
 
-        $result_array = $wpdb->get_results( "SELECT * FROM `". $wpdb->prefix . 
-        "meo_event_category` ORDER BY `id_event_category`", ARRAY_A);
-
-        /*
-        echo '<pre>';
-        echo __FILE__.__Line__.'<br />';
-        var_dump($result_array);
-        echo '</pre>';
-        //*/
+        $result_array = $wpdb->get_results( "SELECT * FROM `". $this->getTableName() . "` ORDER BY `id_doggie`", ARRAY_A);
 
         //For all database results:
         foreach ( $result_array as $idx => $array) {
             //New object
-        $cat = new EventCategory();
+        $cooper = new CooperDoggie();
         //Set all info
-        $cat->setName($array['name']);
-        $cat->setId($array['id_event_category']);
-        $cat->setDescription($array['description']);
-
+        $cooper->setId($array['id_doggie']);
+        $cooper->setName($array['dog_name']);
+        $cooper->setImg($array['dog_img']);
+        $cooper->setRace($array['dog_race']);
         //Add new object to return array
-        $return_array[] = $cat;
+        $return_array[] = $cooper;
         }
         return $return_array;
     }
@@ -150,23 +120,21 @@ public function save($input_array) {
         }
     }
 
-    /**
-     * 
-     * @param type $name name of the event category
-     */
     public function setName( $name ) {
         if ( is_string($name )){
             $this->name = trim($name);
         }
     }
 
-    /**
-     * 
-     * @param type $desc The help text of the event category
-     */
-    public function setDescription ($desc) {
-        if ( is_string($desc)){
-            $this->description = trim($desc);
+    public function setImg ($img) {
+        if ( is_string($img)){
+            $this->img = trim($img);
+        }
+    }
+
+    public function setRace ($race) {
+        if ( is_string($race)){
+            $this->race = trim($race);
         }
     }
 
@@ -190,8 +158,12 @@ public function save($input_array) {
      * 
      * @return string The help text of the description
      */
-    public function getDescription(){
-        return $this->description;    
+    public function getImg(){
+        return $this->img;    
+    }
+
+    public function getRace(){
+        return $this->race;    
     }
 
     /**
@@ -258,8 +230,8 @@ public function save($input_array) {
      */
     public function update($input_array){
         try {
-            $array_fields = array('id', 'name', 'description');
-            $table_fields = array( 'id_event_category', 'name', 'description');
+            $array_fields = array('id', 'dogName', 'dogImg', 'dogRace');
+            $table_fields = array( 'id_doggie', 'dog_name', 'dog_img','dog_race');
             $data_array = array(); 
 
             //Check fields
@@ -280,20 +252,10 @@ public function save($input_array) {
             //Update query
             
             $wpdb->query($wpdb->prepare("UPDATE ".$this->getTableName().
-            " SET  `name` = '%s', `description` = '%s' ".
-            "WHERE
-            `wp_meo_event_category`.`id_event_category` =%d;",$input_array['name'],
-            $input_array['description'], $input_array['id']) );
+            " SET  `dog_name` = '%s', `dog_img` = '%s', `dog_img` = '%s', dog_race = '%s'".
+            "WHERE `".$this->getTableName()."`.`id_doggie` =%d;",
+            $input_array['dogName'], $input_array['dogImg'], $input_array['dogRace'], $input_array['id']) );
 
-            /*/
-            //Replace form field id index by table field id name
-
-            $wpdb->update($this->getTableName(),
-                          $this->getTableDataArray($data_array),
-                          array( 'id_event_category' => $input_array['id']), //Where
-                          array( '%s', '%s' ),  //Data format
-                          array( '%d' ));       //Where format
-            //*/
         } catch (Exception $exc) {
             // @todo: Fix error handlin
             echo $exc->getTraceAsString();
@@ -311,7 +273,7 @@ public function save($input_array) {
     private function getTableName(){
 
         global $wpdb;
-        return $table = $wpdb->prefix . "meo_event_category"; 
+        return $table = $wpdb->prefix . "doggie"; 
     }
 
     /**
@@ -339,7 +301,7 @@ public function save($input_array) {
                 //Remove the index -> is primary key and can
                 //therefore not be changed!
                 if (!empty($table_data)){
-                    unset($table_data['id_event_category']);
+                    unset($table_data['id_doggie']);
                 }
                 break;
                 //Remove
@@ -389,17 +351,9 @@ public function save($input_array) {
 
             global $wpdb;
 
-            //Delete query
-            /*
-            $query = $wpdb->prepare("Delete FROM `". $this->getTableName().
-            "` WHERE `id_event_category` = %d", $input_array['id']);
-
-            //Execute query;
-            $wpdb->query( $query );
-            /*/
             //Delete row by provided id (Wordpress style)
             $wpdb->delete( $this->getTableName(),
-                    array( 'id_event_category' => $input_array['id'] ),
+                    array( 'id_doggie' => $input_array['id'] ),
                     array( '%d' ) ); //Where format
             //*/
 

@@ -122,7 +122,6 @@ if(isset($add)){
     <td colspan="2"><input type="submit" name="update" value="Updaten"/></td>
 
     <?php } else {  ?>
-        <td width="180"><?= $cooper_obj->getId(); ?></td>
         <td width="180"><?= $cooper_obj->getName(); ?></td>
         <td width="200"><img style="width:auto; Height:250px;" src="<?= $cooper_obj->getImg();?>"></td>
         <td width="200"><?= $cooper_obj->getRace();?></td>

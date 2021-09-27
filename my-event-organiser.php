@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) OR exit;
 
 /**
  * Plugin Name: My event organisator plugin
- * Plugin URI: < your plugin url > 
+ * Plugin URI: https://www.digital-sense.nl
  * Description: This plugin will help organise an event with your website
  * Author: Kevin Schuit
  * Author URI: < your uri > 

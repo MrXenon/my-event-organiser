@@ -66,7 +66,6 @@ defined( 'ABSPATH' ) OR exit;
          check_admin_referer( "deactivate-plugin_{$plugin}" );
 
          // Remove the theme specific capabilities
-         Cooper::remove_plugin_caps();
 
          # Uncomment the following line to see the function in action
          # exit( var_dump( $_GET ) );
